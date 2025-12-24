@@ -1,0 +1,81 @@
+
+out/
+
+# If you generate/export compile_commands.json and want to keep it, remove this line.
+
+# =========================
+# Generated binaries / temp
+# =========================
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.pdb
+*.ilk
+*.log
+
+# =========================
+# VS / MSVC
+# =========================
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.vcxproj.*
+*.VC.db
+*.VC.VC.opendb
+
+# =========================
+# Xcode (macOS)
+# =========================
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+DerivedData/
+*.xcuserstate
+
+# =========================
+# VSCode (keep shared settings, ignore personal)
+# =========================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/c_cpp_properties.json
+
+# If you don't want to version ANY VSCode settings, replace above block with:
+# .vscode/
+
+# =========================
+# vcpkg (manifest mode)
+# =========================
+vcpkg_installed/
+# If you keep a local vcpkg clone inside repo, ignore it:
+vcpkg/
+# Optional: overlay buildtrees/packages/downloads inside vcpkg clone
+**/vcpkg/buildtrees/
+**/vcpkg/packages/
+**/vcpkg/downloads/
+
+# =========================
+# OS junk
+# =========================
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =========================
+# Misc
+# =========================
+*.tmp
+*.swp
+*.swo
