@@ -10,6 +10,17 @@ find_package(glm CONFIG REQUIRED)
 
 add_executable(my_navi
   src/main.cpp
+
+    src/gfx/Mesh.cpp
+
+    src/geometry/CubeGeometry.cpp
+    src/geometry/BoxGeometry.cpp
+    src/geometry/SphereGeometry.cpp
+    src/geometry/PyramidGeometry.cpp
 )
 
 target_link_libraries(my_navi PRIVATE glfw glad::glad glm::glm)
+
+target_include_directories(my_navi PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)
