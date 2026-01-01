@@ -1,26 +1,25 @@
 cmake_minimum_required(VERSION 3.21)
-project(my_navi LANGUAGES CXX)
-
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+project(navi_gl LANGUAGES CXX)
 
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glad CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
-add_executable(my_navi
+add_executable(navi_gl
   src/main.cpp
-
-    src/gfx/Mesh.cpp
-
-    src/geometry/CubeGeometry.cpp
-    src/geometry/BoxGeometry.cpp
-    src/geometry/SphereGeometry.cpp
-    src/geometry/PyramidGeometry.cpp
 )
 
-target_link_libraries(my_navi PRIVATE glfw glad::glad glm::glm)
+target_compile_features(navi_gl PRIVATE cxx_std_17)
+target_compile_definitions(navi_gl PRIVATE GLFW_INCLUDE_NONE)
 
-target_include_directories(my_navi PRIVATE
-    ${CMAKE_SOURCE_DIR}/include
+# glfw target name on vcpkg is usually "glfw"
+target_link_libraries(navi_gl PRIVATE
+    glfw
+    glad::glad
+    glm::glm
 )
+
+# macOS: OpenGL deprecation warning suppress (optional)
+if(APPLE)
+  target_compile_definitions(navi_gl PRIVATE GL_SILENCE_DEPRECATION)
+endif()
