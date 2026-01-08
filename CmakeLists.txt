@@ -7,12 +7,12 @@ find_package(glm CONFIG REQUIRED)
 
 add_executable(navi_gl
   src/main.cpp
-
   src/shader.cpp
 )
 
 target_compile_features(navi_gl PRIVATE cxx_std_17)
 target_compile_definitions(navi_gl PRIVATE GLFW_INCLUDE_NONE)
+
 
 # glfw target name on vcpkg is usually "glfw"
 target_link_libraries(navi_gl PRIVATE

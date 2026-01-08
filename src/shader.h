@@ -12,7 +12,7 @@ class Shader
 {
 public:
     Shader(const char * vertexPath, const char * fragmentPath);
-    
+
     GLuint getID();
     void use();
     void createShaderProgram(char* vertexPath, char* fragmentPath);
@@ -26,7 +26,7 @@ private:
     void setID(GLuint id);
     char* readShader(const char * path);
     GLuint createShader(GLenum shaderType, char * path);
-    void checkCompileErrors(GLuint shader, GLenum shaderType);
+    void checkCompileErrors(GLuint shader, std::string type);
 };
 
 #endif
