@@ -5,9 +5,16 @@ find_package(glfw3 CONFIG REQUIRED)
 find_package(glad CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
-add_executable(navi_gl
-  src/main.cpp
-  src/shader.cpp
+# src 아래 cpp 전부 컴파일 대상에 포함
+file(GLOB_RECURSE NAVI_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_SOURCE_DIR}/src/*.cpp"
+)
+
+add_executable(navi_gl ${NAVI_SOURCES})
+
+# ✅ 여기 한 줄이 main.cpp include 에러를 잡는 핵심
+target_include_directories(navi_gl PRIVATE
+    "${CMAKE_SOURCE_DIR}/include"
 )
 
 target_compile_features(navi_gl PRIVATE cxx_std_17)
