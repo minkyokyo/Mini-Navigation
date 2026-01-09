@@ -2,6 +2,7 @@
 
 #include <utility> // std::exchange
 #include <cstddef> // offsetof
+#include <iostream>
 
 #include "navi/geometry/Vertex.h"
 
@@ -54,17 +55,19 @@ namespace navi
     {
         indexCount_ = static_cast<int32_t>(data.indices.size());
 
-        glGenVertexArrays(1, &vao_);
-        glBindVertexArray(vao_);
+        std::cout << indexCount_ << " indices uploaded to mesh.\n";
 
+        glGenVertexArrays(1, &vao_);
         glGenBuffers(1, &vbo_);
+        glGenBuffers(1, &ebo_);
+
+        glBindVertexArray(vao_);
         glBindBuffer(GL_ARRAY_BUFFER, vbo_);
         glBufferData(GL_ARRAY_BUFFER,
                      (GLsizeiptr)(data.vertices.size() * sizeof(Vertex)),
                      data.vertices.data(),
                      GL_STATIC_DRAW);
 
-        glGenBuffers(1, &ebo_);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER,
                      (GLsizeiptr)(data.indices.size() * sizeof(uint32_t)),
@@ -72,10 +75,10 @@ namespace navi
                      GL_STATIC_DRAW);
 
         // layout(location=0) pos
-        glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
                               (void *)offsetof(Vertex, pos));
 
+        glEnableVertexAttribArray(0);
         glBindVertexArray(0);
     }
 
@@ -83,7 +86,6 @@ namespace navi
     {
         glBindVertexArray(vao_);
         glDrawElements(GL_TRIANGLES, indexCount_, GL_UNSIGNED_INT, (void *)0);
-        glBindVertexArray(0);
     }
 
 } // namespace navi

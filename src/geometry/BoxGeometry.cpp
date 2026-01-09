@@ -12,8 +12,7 @@ namespace navi
                             const glm::vec3 &p0,
                             const glm::vec3 &p1,
                             const glm::vec3 &p2,
-                            const glm::vec3 &p3,
-                            const glm::vec3 &n)
+                            const glm::vec3 &p3)
         {
             uint32_t base = static_cast<uint32_t>(out.vertices.size());
 
@@ -58,17 +57,17 @@ namespace navi
         const glm::vec3 p011(-hx, +hy, +hz);
 
         // +Z (front)
-        addFace(out, p001, p101, p111, p011, glm::vec3(0, 0, 1));
+        addFace(out, p001, p101, p111, p011);
         // -Z (back)
-        addFace(out, p100, p000, p010, p110, glm::vec3(0, 0, -1));
+        addFace(out, p100, p000, p010, p110);
         // +X (right)
-        addFace(out, p101, p100, p110, p111, glm::vec3(1, 0, 0));
+        addFace(out, p101, p100, p110, p111);
         // -X (left)
-        addFace(out, p000, p001, p011, p010, glm::vec3(-1, 0, 0));
+        addFace(out, p000, p001, p011, p010);
         // +Y (top)
-        addFace(out, p011, p111, p110, p010, glm::vec3(0, 1, 0));
+        addFace(out, p011, p111, p110, p010);
         // -Y (bottom)
-        addFace(out, p000, p100, p101, p001, glm::vec3(0, -1, 0));
+        addFace(out, p000, p100, p101, p001);
 
         return out;
     }

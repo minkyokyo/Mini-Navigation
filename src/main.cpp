@@ -65,7 +65,7 @@ int main()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     Shader shaderProgram(vertexShaderSource, fragmentShaderSource);
-    navi::BoxGeometry boxGeom(10.0f, 10.0f, 10.0f);
+    navi::BoxGeometry boxGeom(0.5f, 0.5f, 0.5f);
     navi::MeshData boxMeshData = boxGeom.generate();
     navi::Mesh boxMesh(boxMeshData);
 
