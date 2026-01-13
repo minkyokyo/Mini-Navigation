@@ -28,6 +28,7 @@ private:
     double lastY = 0.0;
     float mouseDX = 0.0f; // 프레임 누적
     float mouseDY = 0.0f;
+    float mouseScrollY = 0.0f;
 
 private:
     static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
@@ -83,6 +84,23 @@ private:
 
         lastX = xpos;
         lastY = ypos;
+    }
+
+    static void ScrollCallback(GLFWwindow *window, double xoffset, double yoffset)
+    {
+        auto *self = static_cast<InputProcessor *>(glfwGetWindowUserPointer(window));
+        if (!self)
+            return;
+        self->OnScroll(yoffset);
+    }
+
+    void OnScroll(double yoffset)
+    {
+        mouseScrollY -= (float)yoffset;
+        if (mouseScrollY < 1.0f)
+            mouseScrollY = 1.0f;
+        if (mouseScrollY > 45.0f)
+            mouseScrollY = 45.0f;
     }
 
     void EnterCameraMode()

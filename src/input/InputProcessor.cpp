@@ -12,6 +12,7 @@ void InputProcessor::Attach(GLFWwindow *window)
 
     glfwSetKeyCallback(window, &InputProcessor::KeyCallback);
     glfwSetCursorPosCallback(window, &InputProcessor::CursorPosCallback);
+    glfwSetScrollCallback(window, &InputProcessor::ScrollCallback);
 
     // 기본은 커서 보이게
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -33,8 +34,10 @@ void InputProcessor::Update(float dt, Camera &cam)
 
     if (mouseDX != 0.0f || mouseDY != 0.0f)
     {
-        cam.ProcessMouseMovement(mouseDX, mouseDY);
+        cam.ProcessMouse(mouseDX, mouseDY);
         mouseDX = 0.0f;
         mouseDY = 0.0f;
     }
+
+    cam.ProcessMouseScroll(mouseScrollY);
 }

@@ -14,32 +14,24 @@ enum Camera_Movement
     RIGHT
 };
 
-// Default camera values
-const float YAW = -90.0f;
-const float PITCH = 0.0f;
-const float SPEED = 2.5f;
-const float SENSITIVITY = 0.1f;
-const float ZOOM = 45.0f;
-
 class Camera
 {
 public:
-    // camera Attributes
-    glm::vec3 Position;
-    glm::vec3 Front;
-    glm::vec3 Up;
-    glm::vec3 Right;
-    glm::vec3 WorldUp;
-    // euler Angles
-    float Yaw;
-    float Pitch;
-    // camera options
-    float MovementSpeed;
-    float MouseSensitivity;
-    float Zoom;
+    glm::vec3 Position{0.0f, 0.0f, 3.0f};
+    glm::vec3 Front{0.0f, 0.0f, -1.0f};
+    glm::vec3 Up{0.0f, 1.0f, 0.0f};
+    glm::vec3 Right{1.0f, 0.0f, 0.0f};
+    glm::vec3 WorldUp{0.0f, 1.0f, 0.0f};
+
+    float Yaw = -90.0f; // -Z 방향 바라보게
+    float Pitch = 0.0f;
+
+    float MovementSpeed = 5.0f;
+    float MouseSensitivity = 0.12f;
+    float Zoom = 45.0f;
 
     // constructor with vectors
-    Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch);
+    Camera::Camera();
     // constructor with scalar values
     glm::mat4 GetViewMatrix();
 
@@ -47,7 +39,7 @@ public:
     void ProcessKeyboard(Camera_Movement direction, float deltaTime);
 
     // processes input received from a mouse input system. Expects the offset value in both the x and y direction.
-    void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
+    void ProcessMouse(float xoffset, float yoffset, GLboolean constrainPitch = true);
 
     // processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
     void ProcessMouseScroll(float yoffset);
