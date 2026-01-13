@@ -4,6 +4,7 @@ project(navi_gl LANGUAGES CXX)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glad CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 # src 아래 cpp 전부 컴파일 대상에 포함
 file(GLOB_RECURSE NAVI_SOURCES CONFIGURE_DEPENDS
@@ -26,6 +27,7 @@ target_link_libraries(navi_gl PRIVATE
     glfw
     glad::glad
     glm::glm
+    nlohmann_json::nlohmann_json
 )
 
 # macOS: OpenGL deprecation warning suppress (optional)
