@@ -5,8 +5,10 @@
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
+#include <filesystem>
 
 using json = nlohmann::json;
+namespace fs = std::filesystem;
 
 namespace map
 {
@@ -17,14 +19,14 @@ namespace map
         float type; // -1 road, 0 red, 1 blue, 2 green(circle)
     };
 
-    static PoiType parsePoiType(const std::string &s)
+    static PointType parsePointType(const std::string &s)
     {
         if (s == "RED_SQUARE")
-            return PoiType::RedSquare;
+            return PointType::RedSquare;
         if (s == "BLUE_SQUARE")
-            return PoiType::BlueSquare;
+            return PointType::BlueSquare;
         if (s == "GREEN_CIRCLE")
-            return PoiType::GreenCircle;
+            return PointType::GreenCircle;
         throw std::runtime_error("Unknown POI type: " + s);
     }
 
@@ -33,48 +35,31 @@ namespace map
         std::ifstream ifs(path);
         if (!ifs)
             return false;
+
+        // 파일 열어서 통째로 outText에 넣기
         outText.assign((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
         return true;
     }
 
-    static MapData LoadMapFromJsonFile(const std::string &preferredPath)
+    static MapData LoadMapFromJsonFile(const std::string &path)
     {
-        using json = nlohmann::json;
-        namespace fs = std::filesystem;
-
-        // Try a few sensible locations (because working directory can vary by IDE).
-        std::vector<fs::path> candidates;
-        candidates.emplace_back(preferredPath);
-        candidates.emplace_back(fs::path("assets") / "maps" / preferredPath);
-        candidates.emplace_back(fs::path("assets") / "maps" / "sample_map.json");
-        candidates.emplace_back(fs::path("sample_map.json"));
 
         std::string text;
         fs::path loaded;
 
-        for (const auto &c : candidates)
+        if (!TryLoadTextFile(path, text))
         {
-            if (TryLoadTextFile(c, text))
-            {
-                loaded = c;
-                break;
-            }
+            throw std::runtime_error("Failed to open map file: " + path);
         }
-
-#endif // MAP_MAPLOADER_H
 
         if (text.empty())
         {
-            std::string msg = "Failed to find map JSON. Tried:\n";
-            for (const auto &c : candidates)
-                msg += "  - " + c.string() + "\n";
-            throw std::runtime_error(msg);
+            throw std::runtime_error("Failed to read map Json");
         }
 
         std::cout << "[Map] Loaded: " << loaded.string() << "\n";
 
         json j = json::parse(text);
-
         MapData map;
 
         if (j.contains("nodes"))
@@ -114,9 +99,9 @@ namespace map
         {
             for (auto &p : j["pois"])
             {
-                Poi poi;
+                Point poi;
                 poi.id = p.value("id", std::string{});
-                poi.type = parsePoiType(p.value("type", "RED_SQUARE"));
+                poi.type = parsePointType(p.value("type", "RED_SQUARE"));
                 poi.x = p.value("x", 0.0f);
                 poi.y = p.value("y", 0.0f);
                 poi.name = p.value("name", std::string{});

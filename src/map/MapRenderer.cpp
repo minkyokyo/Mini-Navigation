@@ -7,7 +7,7 @@
 
 namespace map
 {
-    void MapRenderer::init()
+    MapRenderer::MapRenderer()
     {
         glGenVertexArrays(1, &roadVAO);
         glGenBuffers(1, &roadVBO);
@@ -18,8 +18,8 @@ namespace map
 
     void MapRenderer::upload(const MapData &map)
     {
-        std::vector<Vertex> roadVerts;
-        std::vector<Vertex> poiVerts;
+        std::vector<Vertex> roadVtx;
+        std::vector<Vertex> poiVtx;
 
         // roads: polyline -> segments
         for (const auto &e : map.edges)
@@ -33,8 +33,8 @@ namespace map
                 normToNDC(e.polyline[i + 1].first, e.polyline[i + 1].second, x1, y1);
 
                 // white road (you can do gray outline later with 2-pass)
-                roadVerts.push_back({x0, y0, 1, 1, 1, 1, -1});
-                roadVerts.push_back({x1, y1, 1, 1, 1, 1, -1});
+                roadVtx.push_back({x0, y0, 1, 1, 1, 1, -1});
+                roadVtx.push_back({x1, y1, 1, 1, 1, 1, -1});
             }
         }
 
@@ -46,14 +46,14 @@ namespace map
             float r, g, b;
             colorForPoi(p.type, r, g, b);
             float type = typeForPoi(p.type);
-            poiVerts.push_back({x, y, r, g, b, 1, type});
+            poiVtx.push_back({x, y, r, g, b, 1, type});
         }
 
         // upload roads
-        roadCount = roadVerts.size();
+        roadCount = roadVtx.size();
         glBindVertexArray(roadVAO);
         glBindBuffer(GL_ARRAY_BUFFER, roadVBO);
-        glBufferData(GL_ARRAY_BUFFER, roadVerts.size() * sizeof(Vertex), roadVerts.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, roadVtx.size() * sizeof(Vertex), roadVtx.data(), GL_STATIC_DRAW);
 
         // layout: pos(2), color(4), type(1)
         glEnableVertexAttribArray(0);
@@ -66,10 +66,10 @@ namespace map
         glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(6 * sizeof(float)));
 
         // upload pois
-        poiCount = poiVerts.size();
+        poiCount = poiVtx.size();
         glBindVertexArray(poiVAO);
         glBindBuffer(GL_ARRAY_BUFFER, poiVBO);
-        glBufferData(GL_ARRAY_BUFFER, poiVerts.size() * sizeof(Vertex), poiVerts.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, poiVtx.size() * sizeof(Vertex), poiVtx.data(), GL_STATIC_DRAW);
 
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)0);

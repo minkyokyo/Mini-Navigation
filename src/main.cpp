@@ -105,8 +105,18 @@ int main()
     float aspect = 1280.0f / 720.0f;
 
     map::MapRenderer mapRenderer;
-    mapRenderer.init();
-    mapRenderer.upload(map::LoadMapFromJsonFile("assets/mapdata.txt"));
+
+    bool mapLoaded = true;
+    try
+    {
+        auto mapData = map::LoadMapFromJsonFile("sample_map.json");
+        mapRenderer.upload(mapData);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "[Error] Failed to load map: " << e.what() << "\n";
+        mapLoaded = false;
+    }
 
     Shader mapShader(mapVertexShaderSource, mapFragmentShaderSource);
 

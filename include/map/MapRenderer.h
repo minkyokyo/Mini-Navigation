@@ -12,16 +12,16 @@ namespace map
         outY = (1.0f - ny) * 2.0f - 1.0f; // y-flip
     }
 
-    static void colorForPoi(PoiType t, float &r, float &g, float &b)
+    static void colorForPoi(PointType t, float &r, float &g, float &b)
     {
-        if (t == PoiType::RedSquare)
+        if (t == PointType::RedSquare)
         {
             r = 1;
             g = 0;
             b = 0;
             return;
         }
-        if (t == PoiType::BlueSquare)
+        if (t == PointType::BlueSquare)
         {
             r = 0;
             g = 0;
@@ -34,11 +34,11 @@ namespace map
         b = 0;
     }
 
-    static float typeForPoi(PoiType t)
+    static float typeForPoi(PointType t)
     {
-        if (t == PoiType::RedSquare)
+        if (t == PointType::RedSquare)
             return 0.0f;
-        if (t == PoiType::BlueSquare)
+        if (t == PointType::BlueSquare)
             return 1.0f;
         return 2.0f;
     }
@@ -46,6 +46,8 @@ namespace map
     class MapRenderer
     {
     public:
+        MapRenderer::MapRenderer() = default;
+        MapRenderer::MapRenderer();
         void init();
         void upload(const MapData &map);
         void draw(GLuint shaderProgram);

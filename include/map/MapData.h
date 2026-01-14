@@ -19,17 +19,17 @@ namespace map
         std::vector<std::pair<float, float>> polyline; // normalized points
     };
 
-    enum class PoiType
+    enum class PointType
     {
         RedSquare,
         BlueSquare,
         GreenCircle
     };
 
-    struct Poi
+    struct Point
     {
         std::string id;
-        PoiType type;
+        PointType type;
         float x, y; // normalized
         std::string name;
     };
@@ -38,6 +38,6 @@ namespace map
     {
         std::vector<Node> nodes;
         std::vector<Edge> edges;
-        std::vector<Poi> pois;
+        std::vector<Point> pois;
     };
 }
